@@ -10,8 +10,8 @@ import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 
 import "./List.css";
 
-const ListKost = () => {
-  const [kost, setKost] = useState([]);
+const ListOjek = () => {
+  const [ojek, setOjek] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
   const dispatch = useDispatch();
@@ -29,13 +29,13 @@ const ListKost = () => {
   }, [isError, navigate]);
 
   useEffect(() => {
-    getKost();
+    getOjek();
   }, []);
 
-  const getKost = async () => {
+  const getOjek = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/kost");
-      setKost(response.data);
+      const response = await axios.get("http://localhost:5000/ojek");
+      setOjek(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -96,25 +96,10 @@ const ListKost = () => {
                 Alamat
               </th>
               <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider dark:text-white dark:bg-secondary-dark-bg">
-                Harga/Bulan
+                Status
               </th>
               <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider dark:text-white dark:bg-secondary-dark-bg">
-                Harga/Tahun
-              </th>
-              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider dark:text-white dark:bg-secondary-dark-bg">
-                Tersedia
-              </th>
-              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider dark:text-white dark:bg-secondary-dark-bg">
-                Untuk
-              </th>
-              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider dark:text-white dark:bg-secondary-dark-bg">
-                Fasilitas
-              </th>
-              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider dark:text-white dark:bg-secondary-dark-bg">
-                Deskripsi
-              </th>
-              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider dark:text-white dark:bg-secondary-dark-bg">
-                Lokasi
+                Gender
               </th>
               <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider dark:text-white dark:bg-secondary-dark-bg">
                 Image
@@ -125,55 +110,29 @@ const ListKost = () => {
             </tr>
           </thead>
           <tbody>
-            {kost
+            {ojek
               .filter((item) =>
-                item.namaKost.toLowerCase().includes(searchQuery.toLowerCase())
-              ).map((kost, index) => (
-              <tr key={kost.id}>
+                item.nama.toLowerCase().includes(searchQuery.toLowerCase())
+              ).map((ojek, index) => (
+              <tr key={ojek.id}>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
                   {index + 1}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {kost.namaKost}
+                  {ojek.nama}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  <div className="truncate">{kost.alamat}</div>
+                  <div className="truncate">{ojek.alamat}</div>
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {kost.hargaPerbulan}
+                {ojek.status ? "Tersedia" : "Tidak Tersedia"}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {kost.hargaPertahun}
+                  {ojek.gender}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {kost.tersedia}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {kost.gender}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {kost.fasilitas?.join(", ")}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  <div className="truncate">{kost.deskripsi}</div>
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {kost.latitude && kost.longitude ? (
-                    <a
-                      href={`https://www.google.com/maps?q=${kost.latitude},${kost.longitude}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 hover:underline"
-                    >
-                      Lihat Lokasi
-                    </a>  
-                  ) : (
-                    "Lokasi Tidak Tersedia"
-                  )}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {kost.url && Array.isArray(kost.url)
-                    ? kost.url.map((imageUrl, index) => (
+                  {ojek.url && Array.isArray(ojek.url)
+                    ? ojek.url.map((imageUrl, index) => (
                         <a
                           key={index}
                           href={imageUrl}
@@ -183,7 +142,7 @@ const ListKost = () => {
                         >
                           <img
                             src={imageUrl}
-                            alt={`Kost ${kost.namaKost} ${index + 1}`}
+                            alt={`ojek ${ojek.nama} ${index + 1}`}
                             width="50"
                             className="image-spacing rounded-md"
                           />
@@ -196,21 +155,21 @@ const ListKost = () => {
                     <button
                       type="button"
                       className="text-blue-500 hover:text-blue-700"
-                      onClick={() => handleEdit(kost.id)}
+                      onClick={() => handleEdit(ojek.id)}
                     >
                       <FaEdit />
                     </button>
                     <button
                       type="button"
                       className="text-green-500 hover:text-green-700"
-                      onClick={() => handleView(kost.id)}
+                      onClick={() => handleView(ojek.id)}
                     >
                       <FaEye />
                     </button>
                     <button
                       type="button"
                       className="text-red-500 hover:text-red-700"
-                      onClick={() => handleDelete(kost.id)}
+                      onClick={() => handleDelete(ojek.id)}
                     >
                       <FaTrash />
                     </button>
@@ -225,4 +184,4 @@ const ListKost = () => {
   );
 };
 
-export default ListKost;
+export default ListOjek;

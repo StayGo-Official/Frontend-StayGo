@@ -57,7 +57,7 @@ const Sidebar = () => {
       title: "Setting",
       links: [
         {
-          name: "Customers",
+          name: "customers",
           icon: <BsPeople />,
         },
         {

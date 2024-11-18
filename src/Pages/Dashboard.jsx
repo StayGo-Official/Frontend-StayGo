@@ -6,7 +6,6 @@ import { getMe } from "../features/authSlice";
 import {
   BsBook,
   BsPencilSquare,
-  BsFillPersonLinesFill,
   BsCameraVideo,
   BsRecordFill,
 } from "react-icons/bs";
@@ -95,7 +94,7 @@ const Dashboard = () => {
     ],
     datasets: [
       {
-        label: "Cost",
+        label: "Revenue",
         data: [20000, 25000, 22000, 30000, 28000, 33000, 25000, 26000, 20000],
         backgroundColor: "#3877f6",
       },

@@ -4,7 +4,7 @@ import { FiSettings } from "react-icons/fi";
 import { Tooltip } from "react-tooltip";
 
 import { Navbar, Footer, Sidebar, ThemeSettings } from "./components";
-import { Dashboard, LoginPage, ListKost } from "./Pages";
+import { Dashboard, LoginPage, ListKost, ListOjek, ListCustomer } from "./Pages";
 
 import { useStateContext } from "./contexts/ContextProvider";
 
@@ -78,6 +78,8 @@ const AppContent = () => {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/kost" element={<ListKost />} />
+              <Route path="/ojek" element={<ListOjek />} />
+              <Route path="/customers" element={<ListCustomer />} />
             </Routes>
           </div>
 
