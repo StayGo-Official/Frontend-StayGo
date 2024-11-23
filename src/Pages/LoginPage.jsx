@@ -46,11 +46,6 @@ const LoginPage = () => {
               <form onSubmit={Auth} className="space-y-4">
                 <div className="mb-1">
                   <h3 className="text-gray-800 text-3xl font-extrabold">Sign in</h3>
-                  <p className="text-gray-500 text-sm mt-4 leading-relaxed">
-                    Masuk ke akun Anda dan temukan berbagai fitur untuk
-                    meningkatkan pembelajaran Anda. Perjalanan Anda menuju
-                    prestasi dimulai di sini.
-                  </p>
                 </div>
 
                 <div>

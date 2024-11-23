@@ -3,13 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getMe } from "../features/authSlice";
 
-import {
-  BsBook,
-  BsPencilSquare,
-  BsCameraVideo,
-  BsRecordFill,
-} from "react-icons/bs";
-import { PiChalkboardTeacher } from "react-icons/pi";
+import { BsRecordFill } from "react-icons/bs";
+import { AiOutlineHome, AiOutlineUsergroupAdd, AiOutlineDollar } from "react-icons/ai";
+import { FaMotorcycle } from "react-icons/fa6";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -35,15 +31,15 @@ ChartJS.register(
 const Dashboard = () => {
   const earningData = [
     {
-      icon: <BsPencilSquare />,
+      icon: <AiOutlineHome />,
       amount: "13",
       title: "Kost",
       iconColor: "rgb(255, 244, 229)",
-      iconBg: "rgb(254, 201, 15)",
+      iconBg: "#f41f34",
       pcColor: "green-600",
     },
     {
-        icon: <BsPencilSquare />,
+        icon: <FaMotorcycle />,
         amount: "13",
         title: "Ojek",
         iconColor: "rgb(255, 244, 229)",
@@ -51,7 +47,7 @@ const Dashboard = () => {
         pcColor: "green-600",
       },
     {
-        icon: <BsBook />,
+        icon: <AiOutlineUsergroupAdd />,
         amount: "3",
         title: "Customers",
         iconColor: "rgb(255, 244, 229)",
@@ -59,7 +55,7 @@ const Dashboard = () => {
         pcColor: "red-600",
       },
     {
-      icon: <PiChalkboardTeacher />,
+      icon: <AiOutlineDollar />,
       amount: "330000",
       title: "Pendapatan Ojek",
       iconColor: "rgb(255, 244, 229)",
@@ -67,7 +63,7 @@ const Dashboard = () => {
       pcColor: "red-600",
     },
     {
-      icon: <BsCameraVideo />,
+      icon: <AiOutlineDollar />,
       amount: "300000",
       title: "Pendapatan Kost",
       iconColor: "rgb(255, 244, 229)",

@@ -42,23 +42,29 @@ const ListKost = () => {
   };
 
   const handleEdit = (id) => {
-    console.log("Edit Kost ID:", id);
-    // Tambahkan logika untuk navigasi atau buka modal edit
+    navigate(`/edit-kost/${id}`);
   };
 
   const handleView = (id) => {
-    console.log("View Kost ID:", id);
-    // Tambahkan logika untuk navigasi ke halaman detail
+    navigate(`/kost/${id}`);
   };
 
-  const handleDelete = (id) => {
-    console.log("Delete Kost ID:", id);
-    // Tambahkan logika untuk konfirmasi hapus
+  const handleDeleteKost = async (userId) => {
+    await axios.delete(`http://localhost:5000/kost/${userId}`);
+    getKost();
   };
 
   const handleTambah = () => {
     // Tambahkan logika navigasi ke halaman tambah atau buka modal tambah
-    console.log("Tambah Kost Baru");
+    navigate('/add-kost')
+  };
+
+  const formatCurrency = (number) => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    }).format(number);
   };
 
   return (
@@ -71,7 +77,7 @@ const ListKost = () => {
           <input
             type="text"
             placeholder="Cari Nama..."
-            className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+            className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300 dark:text-white dark:bg-secondary-dark-bg"
             onChange={(e) => setSearchQuery(e.target.value)} // Update state for search query
           />
           <button
@@ -140,10 +146,10 @@ const ListKost = () => {
                   <div className="truncate">{kost.alamat}</div>
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {kost.hargaPerbulan}
+                {formatCurrency(kost.hargaPerbulan)}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {kost.hargaPertahun}
+                {formatCurrency(kost.hargaPertahun)}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
                   {kost.tersedia}
@@ -210,7 +216,9 @@ const ListKost = () => {
                     <button
                       type="button"
                       className="text-red-500 hover:text-red-700"
-                      onClick={() => handleDelete(kost.id)}
+                      onClick={() =>
+                        handleDeleteKost(kost.id)
+                      }
                     >
                       <FaTrash />
                     </button>

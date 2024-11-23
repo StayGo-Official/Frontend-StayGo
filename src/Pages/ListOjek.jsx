@@ -47,31 +47,30 @@ const ListOjek = () => {
   };
 
   const handleView = (id) => {
-    console.log("View Kost ID:", id);
-    // Tambahkan logika untuk navigasi ke halaman detail
+    navigate(`/ojek/${id}`);
   };
 
-  const handleDelete = (id) => {
-    console.log("Delete Kost ID:", id);
-    // Tambahkan logika untuk konfirmasi hapus
+  const handleDeleteOjek = async (userId) => {
+    await axios.delete(`http://localhost:5000/ojek/${userId}`);
+    getOjek();
   };
 
   const handleTambah = () => {
     // Tambahkan logika navigasi ke halaman tambah atau buka modal tambah
-    console.log("Tambah Kost Baru");
+    navigate('/add-ojek')
   };
 
   return (
     <div className="m-2 md:m-10 p-2 md:p-10 bg-white dark:text-white dark:bg-secondary-dark-bg rounded-3xl border border-gray-300">
       <div className="flex justify-between items-center mb-4">
         <div>
-          <Header category="Page" title="Data Kost" />
+          <Header category="Page" title="Data Ojek" />
         </div>
         <div className="flex items-center space-x-4">
           <input
             type="text"
             placeholder="Cari Nama..."
-            className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+            className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300 dark:text-white dark:bg-secondary-dark-bg"
             onChange={(e) => setSearchQuery(e.target.value)} // Update state for search query
           />
           <button
@@ -169,7 +168,7 @@ const ListOjek = () => {
                     <button
                       type="button"
                       className="text-red-500 hover:text-red-700"
-                      onClick={() => handleDelete(ojek.id)}
+                      onClick={() => handleDeleteOjek(ojek.id)}
                     >
                       <FaTrash />
                     </button>

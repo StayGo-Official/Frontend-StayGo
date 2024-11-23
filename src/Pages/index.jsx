@@ -1,5 +1,11 @@
+export { default as Homepage } from './homepages/homepage';
 export { default as Dashboard } from './Dashboard';
 export { default as LoginPage } from './LoginPage';
 export { default as ListKost } from './ListKost';
+export { default as AddKost } from './AddKost';
+export { default as EditKost } from './EditKost';
+export { default as ViewKost } from './ViewKost';
 export { default as ListOjek } from './ListOjek';
+export { default as AddOjek } from './AddOjek';
+export { default as ViewOjek } from './ViewOjek';
 export { default as ListCustomer } from './ListCustomer';

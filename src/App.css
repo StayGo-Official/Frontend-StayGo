@@ -60,10 +60,6 @@
   border: none;
 }
 
-.body-no-scroll {
-  overflow: hidden; /* Hilangkan scroll pada body */
-}
-
 .main-content {
   transition: margin-left 0.3s ease-in-out; /* Animasi saat sidebar muncul atau hilang */
   width: 100%;
