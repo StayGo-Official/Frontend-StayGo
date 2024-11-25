@@ -8,8 +8,11 @@ import { Header } from "../components";
 
 const AddOjek = () => {
   const [nama, setNama] = useState("");
+  const [namaLengkap, setNamaLengkap] = useState("");
   const [alamat, setAlamat] = useState("");
   const [status, setStatus] = useState("");
+  const [isRide, setIsRide] = useState("");
+  const [isFood, setIsFood] = useState("");
   const [gender, setGender] = useState("");
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
@@ -31,8 +34,11 @@ const AddOjek = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("nama", nama);
+    formData.append("namaLengkap", namaLengkap);
     formData.append("alamat", alamat);
     formData.append("status", status);
+    formData.append("isRide", isRide);
+    formData.append("isFood", isFood);
     formData.append("gender", gender);
 
     files.forEach(({ file }) => formData.append("files", file));
@@ -93,6 +99,18 @@ const AddOjek = () => {
               />
             </div>
             <div>
+              <label className="block mb-1 font-semibold">Nama Lengkap</label>
+              <input
+                type="text"
+                name="namaLengkap"
+                required
+                className="w-full p-2 border rounded dark:text-white dark:bg-secondary-dark-bg"
+                placeholder="Masukkan nama Ojek"
+                value={namaLengkap}
+                onChange={(e) => setNamaLengkap(e.target.value)}
+              />
+            </div>
+            <div>
               <label className="block mb-1 font-semibold">Alamat</label>
               <textarea
                 name="alamat"
@@ -145,6 +163,41 @@ const AddOjek = () => {
                       <span>Perempuan</span>
                     </label>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex space-x-4 items-center">
+                <div className="flex-grow">
+                  <label className="block mb-2 font-semibold">Ride</label>
+                  <select
+                    name="ride"
+                    required
+                    className="w-full p-2 border rounded dark:text-white dark:bg-secondary-dark-bg"
+                    onChange={(e) => {
+                      setIsRide(JSON.parse(e.target.value));
+                    }}
+                  >
+                    <option value={null}>Pilih</option>
+                    <option value={true}>Iya</option>
+                    <option value={false}>Tidak</option>
+                  </select>
+                </div>
+                <div className="flex-grow">
+                  <label className="block mb-2 font-semibold">Food</label>
+                  <select
+                    name="food"
+                    required
+                    className="w-full p-2 border rounded dark:text-white dark:bg-secondary-dark-bg"
+                    onChange={(e) => {
+                      setIsFood(JSON.parse(e.target.value));
+                    }}
+                  >
+                    <option value={null}>Pilih</option>
+                    <option value={true}>Iya</option>
+                    <option value={false}>Tidak</option>
+                  </select>
                 </div>
               </div>
             </div>
