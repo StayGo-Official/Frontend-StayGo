@@ -4,7 +4,7 @@ import { FiSettings } from "react-icons/fi";
 import { Tooltip } from "react-tooltip";
 
 import { Navbar, Footer, Sidebar, ThemeSettings } from "./components";
-import { Homepage, Dashboard, LoginPage, ListKost, AddKost, ListOjek, AddOjek, ListCustomer, ViewKost, ViewOjek, EditKost } from "./Pages";
+import { Homepage, Dashboard, KebijakanPrivasi, SyaratKetentuan, LoginPage, ListKost, AddKost, ListOjek, AddOjek, ListCustomer, ViewKost, ViewOjek, EditKost } from "./Pages";
 
 import { useStateContext } from "./contexts/ContextProvider";
 
@@ -15,6 +15,8 @@ const AppContent = () => {
   const location = useLocation();
   const isHomepage = location.pathname === "/";
   const isLoginPage = location.pathname === "/login";
+  const isKebijakanPrivasi = location.pathname === "/kebijakan-privasi";
+  const isSyaratKetentuan = location.pathname === "/syarat-dan-ketentuan";
 
   // Toggle class body-no-scroll
   useEffect(() => {
@@ -33,7 +35,7 @@ const AppContent = () => {
     <div className={currentMode === "Dark" ? "dark" : ""}>
       <div className="flex relative dark:bg-main-dark-bg">
         {/* Tombol Settings dengan Tooltip */}
-        { !isHomepage && !isLoginPage && (
+        { !isHomepage && !isLoginPage && !isKebijakanPrivasi && !isSyaratKetentuan && (
           <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
             <button
               type="button"
@@ -50,11 +52,11 @@ const AppContent = () => {
         )}
 
         {/* Sidebar */}
-        { !isHomepage && !isLoginPage && activeMenu ? (
+        { !isHomepage && !isLoginPage && !isKebijakanPrivasi && !isSyaratKetentuan && activeMenu ? (
           <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white">
             <Sidebar />
           </div>
-        ) : !isHomepage && !isLoginPage ? (
+        ) : !isHomepage && !isLoginPage && !isKebijakanPrivasi && !isSyaratKetentuan ? (
           <div className="w-0 dark:bg-secondary-dark-bg">
             <Sidebar />
           </div>
@@ -63,10 +65,10 @@ const AppContent = () => {
         {/* Main Content */}
         <div
           className={`main-content dark:bg-main-dark-bg bg-main-bg min-h-screen w-full ${
-            activeMenu && !isHomepage && !isLoginPage ? "sidebar-visible" : "full-width"
+            activeMenu && !isHomepage && !isLoginPage && !isKebijakanPrivasi && !isSyaratKetentuan ? "sidebar-visible" : "full-width"
           }`}
         >
-          { !isHomepage && !isLoginPage && (
+          { !isHomepage && !isLoginPage && !isKebijakanPrivasi && !isSyaratKetentuan && (
             <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full">
               <Navbar />
             </div>
@@ -77,6 +79,8 @@ const AppContent = () => {
 
             <Routes>
               <Route path="/" element={<Homepage />} />
+              <Route path="/kebijakan-privasi" element={<KebijakanPrivasi />} />
+              <Route path="/syarat-dan-ketentuan" element={<SyaratKetentuan />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/kost" element={<ListKost />} />
@@ -90,7 +94,7 @@ const AppContent = () => {
             </Routes>
           </div>
 
-          { !isHomepage && !isLoginPage && <Footer />}
+          { !isHomepage && !isLoginPage && !isKebijakanPrivasi && !isSyaratKetentuan && <Footer />}
         </div>
       </div>
     </div>

@@ -1,5 +1,7 @@
 export { default as Homepage } from './homepages/homepage';
 export { default as Dashboard } from './Dashboard';
+export { default as KebijakanPrivasi } from './KebijakanPrivasi/KebijakanPrivasi';
+export { default as SyaratKetentuan } from './KebijakanPrivasi/SyaratKetentuan';
 export { default as LoginPage } from './LoginPage';
 export { default as ListKost } from './ListKost';
 export { default as AddKost } from './AddKost';
