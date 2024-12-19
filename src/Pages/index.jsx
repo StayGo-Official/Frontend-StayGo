@@ -4,10 +4,12 @@ export { default as KebijakanPrivasi } from './KebijakanPrivasi/KebijakanPrivasi
 export { default as SyaratKetentuan } from './KebijakanPrivasi/SyaratKetentuan';
 export { default as LoginPage } from './LoginPage';
 export { default as ListKost } from './ListKost';
+export { default as ListOrderKost } from './ListOrderKost';
 export { default as AddKost } from './AddKost';
 export { default as EditKost } from './EditKost';
 export { default as ViewKost } from './ViewKost';
 export { default as ListOjek } from './ListOjek';
+export { default as ListOrderOjek } from './ListOrderOjek';
 export { default as AddOjek } from './AddOjek';
 export { default as ViewOjek } from './ViewOjek';
 export { default as ListCustomer } from './ListCustomer';

@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getMe } from "../features/authSlice";
@@ -29,10 +30,25 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
+  const [totalKost, setTotalKost] = useState([]);
+  const [totalOjek, setTotalOjek] = useState([]);
+  const [totalCustomer, setTotalCustomer] = useState([]);
+  const [incomeOjek, setIncomeOjek] = useState([]);
+
+  // Fungsi untuk memformat angka sebagai mata uang IDR
+  const formatCurrency = (number) => {
+    const num = parseFloat(number);
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    }).format(num);
+  };
+
   const earningData = [
     {
       icon: <AiOutlineHome />,
-      amount: "13",
+      amount: totalKost,
       title: "Kost",
       iconColor: "rgb(255, 244, 229)",
       iconBg: "#f41f34",
@@ -40,7 +56,7 @@ const Dashboard = () => {
     },
     {
         icon: <FaMotorcycle />,
-        amount: "13",
+        amount: totalOjek,
         title: "Ojek",
         iconColor: "rgb(255, 244, 229)",
         iconBg: "rgb(254, 201, 15)",
@@ -48,7 +64,7 @@ const Dashboard = () => {
       },
     {
         icon: <AiOutlineUsergroupAdd />,
-        amount: "3",
+        amount: totalCustomer,
         title: "Customers",
         iconColor: "rgb(255, 244, 229)",
         iconBg: "#40e0ef",
@@ -56,18 +72,10 @@ const Dashboard = () => {
       },
     {
       icon: <AiOutlineDollar />,
-      amount: "330000",
+      amount: formatCurrency(incomeOjek),
       title: "Pendapatan Ojek",
       iconColor: "rgb(255, 244, 229)",
       iconBg: "#e76df9",
-      pcColor: "red-600",
-    },
-    {
-      icon: <AiOutlineDollar />,
-      amount: "300000",
-      title: "Pendapatan Kost",
-      iconColor: "rgb(255, 244, 229)",
-      iconBg: "#47ef9b",
       pcColor: "red-600",
     },
   ];
@@ -123,6 +131,50 @@ const Dashboard = () => {
       navigate("/login");
     }
   }, [isError, navigate]);
+
+  useEffect(() => {
+    getTotalKost();
+    getTotalOjek();
+    getTotalCustomer();
+    getOrderOjek();
+  }, []);
+
+  const getTotalKost = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/kost");
+      setTotalKost(response.data.length);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const getTotalOjek = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/ojek");
+      setTotalOjek(response.data.length);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const getTotalCustomer = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/customers");
+      setTotalCustomer(response.data.length);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const getOrderOjek = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/order-ojek-admin");
+      const totalIncome = response.data.reduce((sum, order) => sum + order.harga, 0);
+      setIncomeOjek(totalIncome);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   return (
     <div className="mt-5">

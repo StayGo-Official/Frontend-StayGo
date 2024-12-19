@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { MdOutlineCancel } from "react-icons/md";
 import { AiOutlineHome, AiOutlineStock } from "react-icons/ai";
 import { FiPieChart } from "react-icons/fi";
-import { BsPeople } from "react-icons/bs";
+import { BsPeople, BsClipboardCheck } from "react-icons/bs";
 import { BiSolidDashboard } from "react-icons/bi";
 import { FaMotorcycle } from "react-icons/fa6";
 import { CgPassword } from "react-icons/cg";
@@ -37,6 +37,14 @@ const Sidebar = () => {
         {
           name: "ojek",
           icon: <FaMotorcycle />,
+        },
+        {
+          name: "pemesanan ojek",
+          icon: <BsClipboardCheck />,
+        },
+        {
+          name: "pemesanan kost",
+          icon: <BsClipboardCheck />,
         },
       ],
     },

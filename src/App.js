@@ -4,7 +4,7 @@ import { FiSettings } from "react-icons/fi";
 import { Tooltip } from "react-tooltip";
 
 import { Navbar, Footer, Sidebar, ThemeSettings } from "./components";
-import { Homepage, Dashboard, KebijakanPrivasi, SyaratKetentuan, LoginPage, ListKost, AddKost, ListOjek, AddOjek, ListCustomer, ViewKost, ViewOjek, EditKost } from "./Pages";
+import { Homepage, Dashboard, KebijakanPrivasi, SyaratKetentuan, LoginPage, ListKost, AddKost, ListOjek, ListOrderOjek, AddOjek, ListCustomer, ViewKost, ViewOjek, EditKost, ListOrderKost } from "./Pages";
 
 import { useStateContext } from "./contexts/ContextProvider";
 
@@ -88,6 +88,8 @@ const AppContent = () => {
               <Route path="/edit-kost/:id" element={<EditKost />} />
               <Route path="/kost/:id" element={<ViewKost />} />
               <Route path="/ojek" element={<ListOjek />} />
+              <Route path="/pemesanan ojek" element={<ListOrderOjek />} />
+              <Route path="/pemesanan kost" element={<ListOrderKost />} />
               <Route path="/ojek/:id" element={<ViewOjek />} />
               <Route path="/add-ojek" element={<AddOjek />} />
               <Route path="/customers" element={<ListCustomer />} />
