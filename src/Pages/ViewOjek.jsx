@@ -18,16 +18,16 @@ const ViewOjek = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isError } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    dispatch(getMe());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isError) {
-      navigate("/login");
-    }
-  }, [isError, navigate]);
+  
+    useEffect(() => {
+      dispatch(getMe());
+    }, [dispatch]);
+  
+    useEffect(() => {
+      if (isError) {
+        navigate("/login");
+      }
+    }, []);
 
   useEffect(() => {
     getOjekById();
@@ -35,7 +35,7 @@ const ViewOjek = () => {
   }, []);
 
   const getOjekById = async () => {
-    const response = await axios.get(`http://localhost:5000/ojek/${id}`);
+    const response = await axios.get(`https://api-staygo.tonexus.my.id/ojek/${id}`);
     setNama(response.data.nama);
     setAlamat(response.data.alamat);
     setStatus(response.data.status);

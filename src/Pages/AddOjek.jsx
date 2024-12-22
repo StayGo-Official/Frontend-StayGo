@@ -19,19 +19,21 @@ const AddOjek = () => {
 
   const dispatch = useDispatch();
   const { isError } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    dispatch(getMe());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isError) {
-      navigate("/login");
-    }
-  }, [isError, navigate]);
+  
+    useEffect(() => {
+      dispatch(getMe());
+    }, [dispatch]);
+  
+    useEffect(() => {
+      if (isError) {
+        navigate("/login");
+      }
+    }, []);
 
   const saveOjek = async (e) => {
     e.preventDefault();
+    console.log("Save Ojek Triggered");
+
     const formData = new FormData();
     formData.append("nama", nama);
     formData.append("namaLengkap", namaLengkap);
@@ -41,30 +43,45 @@ const AddOjek = () => {
     formData.append("isFood", isFood);
     formData.append("gender", gender);
 
-    files.forEach(({ file }) => formData.append("files", file));
+    files.forEach((fileObj, index) => {
+      formData.append("files", fileObj.file); // Ubah 'files[]' menjadi 'files'
+    });
+
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
 
     try {
-      await axios.post("http://localhost:5000/ojek", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const token = localStorage.getItem("token");
+      console.log("Token di Frontend:", token);
+      const response = await axios.post(
+        "https://api-staygo.tonexus.my.id/ojek",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("Response dari Server:", response);
       navigate("/ojek");
     } catch (error) {
-      console.log(error);
+      console.error("Error:", error.response ? error.response.data : error.message);
     }
   };
 
   const handleImageUpload = (event) => {
     const files = Array.from(event.target.files);
-
-    // Buat array dengan file asli dan preview URL untuk masing-masing file
-    const newImages = files.map((file) => ({
-      file, // file asli untuk diunggah
-      preview: URL.createObjectURL(file), // URL untuk preview di frontend
-    }));
-
-    // Tambahkan file baru ke state `files`
+  
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+    const newImages = files
+      .filter((file) => allowedTypes.includes(file.type))
+      .map((file) => ({
+        file, 
+        preview: URL.createObjectURL(file),
+      }));
+  
     setFiles((prevImages) => [...prevImages, ...newImages]);
   };
 

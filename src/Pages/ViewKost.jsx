@@ -24,16 +24,16 @@ const ViewKost = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isError } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    dispatch(getMe());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isError) {
-      navigate("/login");
-    }
-  }, [isError, navigate]);
+  
+    useEffect(() => {
+      dispatch(getMe());
+    }, [dispatch]);
+  
+    useEffect(() => {
+      if (isError) {
+        navigate("/login");
+      }
+    }, []);
 
   useEffect(() => {
     getKostById();
@@ -41,7 +41,7 @@ const ViewKost = () => {
   }, []);
 
   const getKostById = async () => {
-    const response = await axios.get(`http://localhost:5000/kost/${id}`);
+    const response = await axios.get(`https://api-staygo.tonexus.my.id/kost/${id}`);
     setNamaKost(response.data.namaKost);
     setAlamat(response.data.alamat);
     setHargaPerbulan(response.data.hargaPerbulan);

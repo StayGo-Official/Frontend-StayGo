@@ -23,10 +23,13 @@ const ListOrderOjek = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isError) {
+    const token = localStorage.getItem("token");
+    if (token) {
+      getOrderOjek();
+    } else {
       navigate("/login");
     }
-  }, [isError, navigate]);
+  }, [navigate]);
 
   useEffect(() => {
     getOrderOjek();
@@ -34,9 +37,21 @@ const ListOrderOjek = () => {
 
   const getOrderOjek = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/order-ojek-admin");
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        "https://api-staygo.tonexus.my.id/order-ojek-admin",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add token to headers
+          },
+        }
+      );
       setOrderOjek(response.data);
     } catch (error) {
+      if (error.response && error.response.status === 401) {
+        // Handle unauthorized error - redirect to login
+        navigate("/login");
+      }
       console.error("Error fetching data:", error);
     }
   };
@@ -83,48 +98,51 @@ const ListOrderOjek = () => {
           <tbody>
             {orderOjek
               .filter((item) =>
-                item.customer.nama.toLowerCase().includes(searchQuery.toLowerCase())
-              ).map((orderOjek, index) => (
-              <tr key={orderOjek.id}>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {index + 1}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {orderOjek.customer.nama}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {orderOjek.ojek.nama}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {orderOjek.harga}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {orderOjek.status}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  <div className="flex items-center space-x-2">
-                    <button
-                      type="button"
-                      className="text-blue-500 hover:text-blue-700"
-                    >
-                      <FaEdit />
-                    </button>
-                    <button
-                      type="button"
-                      className="text-green-500 hover:text-green-700"
-                    >
-                      <FaEye />
-                    </button>
-                    <button
-                      type="button"
-                      className="text-red-500 hover:text-red-700"
-                    >
-                      <FaTrash />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+                item.customer.nama
+                  .toLowerCase()
+                  .includes(searchQuery.toLowerCase())
+              )
+              .map((orderOjek, index) => (
+                <tr key={orderOjek.id}>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {index + 1}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {orderOjek.customer.nama}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {orderOjek.ojek.nama}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {orderOjek.harga}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {orderOjek.status}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    <div className="flex items-center space-x-2">
+                      <button
+                        type="button"
+                        className="text-blue-500 hover:text-blue-700"
+                      >
+                        <FaEdit />
+                      </button>
+                      <button
+                        type="button"
+                        className="text-green-500 hover:text-green-700"
+                      >
+                        <FaEye />
+                      </button>
+                      <button
+                        type="button"
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

@@ -22,11 +22,11 @@ const ListKost = () => {
     dispatch(getMe());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (isError) {
-      navigate("/login");
-    }
-  }, [isError, navigate]);
+  // useEffect(() => {
+  //   if (isError) {
+  //     navigate("/login");
+  //   }
+  // }, [isError, navigate]);
 
   useEffect(() => {
     getKost();
@@ -34,7 +34,7 @@ const ListKost = () => {
 
   const getKost = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/kost");
+      const response = await axios.get("https://api-staygo.tonexus.my.id/kost");
       setKost(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -50,19 +50,24 @@ const ListKost = () => {
   };
 
   const handleDeleteKost = async (userId) => {
-    await axios.delete(`http://localhost:5000/kost/${userId}`);
+    const token = localStorage.getItem("token");
+    await axios.delete(`https://api-staygo.tonexus.my.id/kost/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     getKost();
   };
 
   const handleTambah = () => {
     // Tambahkan logika navigasi ke halaman tambah atau buka modal tambah
-    navigate('/add-kost')
+    navigate("/add-kost");
   };
 
   const formatCurrency = (number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
       minimumFractionDigits: 0,
     }).format(number);
   };
@@ -134,98 +139,97 @@ const ListKost = () => {
             {kost
               .filter((item) =>
                 item.namaKost.toLowerCase().includes(searchQuery.toLowerCase())
-              ).map((kost, index) => (
-              <tr key={kost.id}>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {index + 1}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {kost.namaKost}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  <div className="truncate">{kost.alamat}</div>
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                {formatCurrency(kost.hargaPerbulan)}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                {formatCurrency(kost.hargaPertahun)}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {kost.tersedia}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {kost.gender}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {kost.fasilitas?.join(", ")}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  <div className="truncate">{kost.deskripsi}</div>
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {kost.latitude && kost.longitude ? (
-                    <a
-                      href={`https://www.google.com/maps?q=${kost.latitude},${kost.longitude}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 hover:underline"
-                    >
-                      Lihat Lokasi
-                    </a>  
-                  ) : (
-                    "Lokasi Tidak Tersedia"
-                  )}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {kost.url && Array.isArray(kost.url)
-                    ? kost.url.map((imageUrl, index) => (
-                        <a
-                          key={index}
-                          href={imageUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block"
-                        >
-                          <img
-                            src={imageUrl}
-                            alt={`Kost ${kost.namaKost} ${index + 1}`}
-                            width="50"
-                            className="image-spacing rounded-md"
-                          />
-                        </a>
-                      ))
-                    : "Gambar Tidak Tersedia"}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  <div className="flex items-center space-x-2">
-                    <button
-                      type="button"
-                      className="text-blue-500 hover:text-blue-700"
-                      onClick={() => handleEdit(kost.id)}
-                    >
-                      <FaEdit />
-                    </button>
-                    <button
-                      type="button"
-                      className="text-green-500 hover:text-green-700"
-                      onClick={() => handleView(kost.id)}
-                    >
-                      <FaEye />
-                    </button>
-                    <button
-                      type="button"
-                      className="text-red-500 hover:text-red-700"
-                      onClick={() =>
-                        handleDeleteKost(kost.id)
-                      }
-                    >
-                      <FaTrash />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+              )
+              .map((kost, index) => (
+                <tr key={kost.id}>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {index + 1}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {kost.namaKost}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    <div className="truncate">{kost.alamat}</div>
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {formatCurrency(kost.hargaPerbulan)}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {formatCurrency(kost.hargaPertahun)}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {kost.tersedia}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {kost.gender}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {kost.fasilitas?.join(", ")}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    <div className="truncate">{kost.deskripsi}</div>
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {kost.latitude && kost.longitude ? (
+                      <a
+                        href={`https://www.google.com/maps?q=${kost.latitude},${kost.longitude}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:underline"
+                      >
+                        Lihat Lokasi
+                      </a>
+                    ) : (
+                      "Lokasi Tidak Tersedia"
+                    )}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {kost.url && Array.isArray(kost.url)
+                      ? kost.url.map((imageUrl, index) => (
+                          <a
+                            key={index}
+                            href={imageUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block"
+                          >
+                            <img
+                              src={imageUrl}
+                              alt={`Kost ${kost.namaKost} ${index + 1}`}
+                              width="50"
+                              className="image-spacing rounded-md"
+                            />
+                          </a>
+                        ))
+                      : "Gambar Tidak Tersedia"}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    <div className="flex items-center space-x-2">
+                      <button
+                        type="button"
+                        className="text-blue-500 hover:text-blue-700"
+                        onClick={() => handleEdit(kost.id)}
+                      >
+                        <FaEdit />
+                      </button>
+                      <button
+                        type="button"
+                        className="text-green-500 hover:text-green-700"
+                        onClick={() => handleView(kost.id)}
+                      >
+                        <FaEye />
+                      </button>
+                      <button
+                        type="button"
+                        className="text-red-500 hover:text-red-700"
+                        onClick={() => handleDeleteKost(kost.id)}
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

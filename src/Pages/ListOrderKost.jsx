@@ -17,16 +17,19 @@ const ListOrderKost = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isError } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    dispatch(getMe());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isError) {
-      navigate("/login");
-    }
-  }, [isError, navigate]);
+  
+    useEffect(() => {
+      dispatch(getMe());
+    }, [dispatch]);
+  
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+          getOrderKost();
+        } else {
+          navigate("/login");
+        }
+      }, [navigate]);
 
   useEffect(() => {
     getOrderKost();
@@ -34,7 +37,15 @@ const ListOrderKost = () => {
 
   const getOrderKost = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/order-kost-admin");
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        "https://api-staygo.tonexus.my.id/order-kost-admin",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add token to headers
+          },
+        }
+      );
       setOrderKost(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);

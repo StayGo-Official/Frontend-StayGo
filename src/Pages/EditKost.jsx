@@ -25,16 +25,16 @@ const EditKost = () => {
 
   const dispatch = useDispatch();
   const { isError } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    dispatch(getMe());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isError) {
-      navigate("/login");
-    }
-  }, [isError, navigate]);
+  
+    useEffect(() => {
+      dispatch(getMe());
+    }, [dispatch]);
+  
+    useEffect(() => {
+      if (isError) {
+        navigate("/login");
+      }
+    }, []);
 
   useEffect(() => {
     getKostById();
@@ -42,7 +42,7 @@ const EditKost = () => {
   }, []);
 
   const getKostById = async () => {
-    const response = await axios.get(`http://localhost:5000/kost/${id}`);
+    const response = await axios.get(`https://api-staygo.tonexus.my.id/kost/${id}`);
     setNamaKost(response.data.namaKost);
     setAlamat(response.data.alamat);
     setHargaPerbulan(response.data.hargaPerbulan);
@@ -84,7 +84,7 @@ const EditKost = () => {
     formData.append("removedImages", JSON.stringify(removedImages));
 
     try {
-      await axios.patch(`http://localhost:5000/kost/${id}`, formData, {
+      await axios.patch(`https://api-staygo.tonexus.my.id/kost/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

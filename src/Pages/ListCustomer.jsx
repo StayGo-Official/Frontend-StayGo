@@ -26,15 +26,14 @@ const ListCustomer = () => {
     if (isError) {
       navigate("/login");
     }
-  }, [isError, navigate]);
-
-  useEffect(() => {
     getCustomer();
-  }, []);
+  }, [isError, navigate]);
 
   const getCustomer = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/customers");
+      const response = await axios.get(
+        "https://api-staygo.tonexus.my.id/customers"
+      );
       setCustomer(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);

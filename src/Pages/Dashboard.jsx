@@ -5,7 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { getMe } from "../features/authSlice";
 
 import { BsRecordFill } from "react-icons/bs";
-import { AiOutlineHome, AiOutlineUsergroupAdd, AiOutlineDollar } from "react-icons/ai";
+import {
+  AiOutlineHome,
+  AiOutlineUsergroupAdd,
+  AiOutlineDollar,
+} from "react-icons/ai";
 import { FaMotorcycle } from "react-icons/fa6";
 import { Bar } from "react-chartjs-2";
 import {
@@ -38,9 +42,9 @@ const Dashboard = () => {
   // Fungsi untuk memformat angka sebagai mata uang IDR
   const formatCurrency = (number) => {
     const num = parseFloat(number);
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
       minimumFractionDigits: 0,
     }).format(num);
   };
@@ -55,21 +59,21 @@ const Dashboard = () => {
       pcColor: "green-600",
     },
     {
-        icon: <FaMotorcycle />,
-        amount: totalOjek,
-        title: "Ojek",
-        iconColor: "rgb(255, 244, 229)",
-        iconBg: "rgb(254, 201, 15)",
-        pcColor: "green-600",
-      },
+      icon: <FaMotorcycle />,
+      amount: totalOjek,
+      title: "Ojek",
+      iconColor: "rgb(255, 244, 229)",
+      iconBg: "rgb(254, 201, 15)",
+      pcColor: "green-600",
+    },
     {
-        icon: <AiOutlineUsergroupAdd />,
-        amount: totalCustomer,
-        title: "Customers",
-        iconColor: "rgb(255, 244, 229)",
-        iconBg: "#40e0ef",
-        pcColor: "red-600",
-      },
+      icon: <AiOutlineUsergroupAdd />,
+      amount: totalCustomer,
+      title: "Customers",
+      iconColor: "rgb(255, 244, 229)",
+      iconBg: "#40e0ef",
+      pcColor: "red-600",
+    },
     {
       icon: <AiOutlineDollar />,
       amount: formatCurrency(incomeOjek),
@@ -117,31 +121,30 @@ const Dashboard = () => {
       },
     },
   };
-  
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isError } = useSelector((state) => state.auth);
+  const { isError, user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getMe());
   }, [dispatch]);
 
   useEffect(() => {
-    if (isError) {
+    const token = localStorage.getItem("token");
+    if (token) {
+      getTotalKost();
+      getTotalOjek();
+      getTotalCustomer();
+      getOrderOjek();
+    } else {
       navigate("/login");
     }
-  }, [isError, navigate]);
-
-  useEffect(() => {
-    getTotalKost();
-    getTotalOjek();
-    getTotalCustomer();
-    getOrderOjek();
-  }, []);
+  }, [navigate]);
 
   const getTotalKost = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/kost");
+      const response = await axios.get("https://api-staygo.tonexus.my.id/kost");
       setTotalKost(response.data.length);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -150,7 +153,7 @@ const Dashboard = () => {
 
   const getTotalOjek = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/ojek");
+      const response = await axios.get("https://api-staygo.tonexus.my.id/ojek");
       setTotalOjek(response.data.length);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -159,7 +162,9 @@ const Dashboard = () => {
 
   const getTotalCustomer = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/customers");
+      const response = await axios.get(
+        "https://api-staygo.tonexus.my.id/customers"
+      );
       setTotalCustomer(response.data.length);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -168,8 +173,19 @@ const Dashboard = () => {
 
   const getOrderOjek = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/order-ojek-admin");
-      const totalIncome = response.data.reduce((sum, order) => sum + order.harga, 0);
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        "https://api-staygo.tonexus.my.id/order-ojek-admin",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add token to headers
+          },
+        }
+      );
+      const totalIncome = response.data.reduce(
+        (sum, order) => sum + order.harga,
+        0
+      );
       setIncomeOjek(totalIncome);
     } catch (error) {
       console.error("Error fetching data:", error);

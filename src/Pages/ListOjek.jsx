@@ -26,7 +26,7 @@ const ListOjek = () => {
     if (isError) {
       navigate("/login");
     }
-  }, [isError, navigate]);
+  }, []);
 
   useEffect(() => {
     getOjek();
@@ -34,7 +34,7 @@ const ListOjek = () => {
 
   const getOjek = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/ojek");
+      const response = await axios.get("https://api-staygo.tonexus.my.id/ojek");
       setOjek(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -51,13 +51,18 @@ const ListOjek = () => {
   };
 
   const handleDeleteOjek = async (userId) => {
-    await axios.delete(`http://localhost:5000/ojek/${userId}`);
+    const token = localStorage.getItem("token");
+    await axios.delete(`https://api-staygo.tonexus.my.id/ojek/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     getOjek();
   };
 
   const handleTambah = () => {
     // Tambahkan logika navigasi ke halaman tambah atau buka modal tambah
-    navigate('/add-ojek')
+    navigate("/add-ojek");
   };
 
   return (
@@ -121,79 +126,80 @@ const ListOjek = () => {
             {ojek
               .filter((item) =>
                 item.nama.toLowerCase().includes(searchQuery.toLowerCase())
-              ).map((ojek, index) => (
-              <tr key={ojek.id}>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {index + 1}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {ojek.nama}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {ojek.namaLengkap}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  <div className="truncate">{ojek.alamat}</div>
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                {ojek.status ? "Tersedia" : "Tidak Tersedia"}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                {ojek.isRide ? "Iya" : "Tidak"}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                {ojek.isFood ? "Iya" : "Tidak"}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {ojek.gender}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  {ojek.url && Array.isArray(ojek.url)
-                    ? ojek.url.map((imageUrl, index) => (
-                        <a
-                          key={index}
-                          href={imageUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block"
-                        >
-                          <img
-                            src={imageUrl}
-                            alt={`ojek ${ojek.nama} ${index + 1}`}
-                            width="50"
-                            className="image-spacing rounded-md"
-                          />
-                        </a>
-                      ))
-                    : "Gambar Tidak Tersedia"}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
-                  <div className="flex items-center space-x-2">
-                    <button
-                      type="button"
-                      className="text-blue-500 hover:text-blue-700"
-                      onClick={() => handleEdit(ojek.id)}
-                    >
-                      <FaEdit />
-                    </button>
-                    <button
-                      type="button"
-                      className="text-green-500 hover:text-green-700"
-                      onClick={() => handleView(ojek.id)}
-                    >
-                      <FaEye />
-                    </button>
-                    <button
-                      type="button"
-                      className="text-red-500 hover:text-red-700"
-                      onClick={() => handleDeleteOjek(ojek.id)}
-                    >
-                      <FaTrash />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+              )
+              .map((ojek, index) => (
+                <tr key={ojek.id}>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {index + 1}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {ojek.nama}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {ojek.namaLengkap}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    <div className="truncate">{ojek.alamat}</div>
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {ojek.status ? "Tersedia" : "Tidak Tersedia"}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {ojek.isRide ? "Iya" : "Tidak"}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {ojek.isFood ? "Iya" : "Tidak"}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {ojek.gender}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    {ojek.url && Array.isArray(ojek.url)
+                      ? ojek.url.map((imageUrl, index) => (
+                          <a
+                            key={index}
+                            href={imageUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block"
+                          >
+                            <img
+                              src={imageUrl}
+                              alt={`ojek ${ojek.nama} ${index + 1}`}
+                              width="50"
+                              className="image-spacing rounded-md"
+                            />
+                          </a>
+                        ))
+                      : "Gambar Tidak Tersedia"}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm dark:text-white dark:bg-secondary-dark-bg">
+                    <div className="flex items-center space-x-2">
+                      <button
+                        type="button"
+                        className="text-blue-500 hover:text-blue-700"
+                        onClick={() => handleEdit(ojek.id)}
+                      >
+                        <FaEdit />
+                      </button>
+                      <button
+                        type="button"
+                        className="text-green-500 hover:text-green-700"
+                        onClick={() => handleView(ojek.id)}
+                      >
+                        <FaEye />
+                      </button>
+                      <button
+                        type="button"
+                        className="text-red-500 hover:text-red-700"
+                        onClick={() => handleDeleteOjek(ojek.id)}
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

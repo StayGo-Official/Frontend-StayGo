@@ -11,40 +11,65 @@ const initialState = {
 
 export const LoginUser = createAsyncThunk("user/LoginUser", async(user, thunkAPI) => {
     try {
-        const response = await axios.post('http://localhost:5000/login', {
+        const response = await axios.post('https://api-staygo.tonexus.my.id/login', {
             username: user.username,
             password: user.password
-        })
-        return response.data
+        });
+        // Store token in localStorage
+        if (response.data.token) {
+            localStorage.setItem('token', response.data.token);
+        }
+        return response.data;
     } catch (error) {
         if (error.response){
             const message = error.response.data.msg;
-            return thunkAPI.rejectWithValue(message)
+            return thunkAPI.rejectWithValue(message);
         }
     }
-})
+});
 
 export const getMe = createAsyncThunk("user/getMe", async(_, thunkAPI) => {
     try {
-        const response = await axios.get('http://localhost:5000/me')
-        return response.data
+        const token = localStorage.getItem('token');
+        const response = await axios.get('https://api-staygo.tonexus.my.id/me', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response.data;
     } catch (error) {
         if (error.response){
             const message = error.response.data.msg;
-            return thunkAPI.rejectWithValue(message)
+            return thunkAPI.rejectWithValue(message);
         }
     }
-})
+});
 
-export const LogOut = createAsyncThunk("user/LogOut", async() => {
-    await axios.delete('http://localhost:5000/logout')
-})
+export const LogOut = createAsyncThunk("user/LogOut", async(_, thunkAPI) => {
+    try {
+        const token = localStorage.getItem('token');
+        await axios.delete('https://api-staygo.tonexus.my.id/logout', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        // Remove token from localStorage
+        localStorage.removeItem('token');
+    } catch (error) {
+        return thunkAPI.rejectWithValue("Logout failed");
+    }
+});
 
 export const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers:{
-        reset: (state) => initialState
+        reset: (state) => {
+            return {
+                ...initialState,
+                user: state.user // Preserve user data during reset
+            }
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(LoginUser.pending, (state) => {
@@ -54,6 +79,8 @@ export const authSlice = createSlice({
             state.isLoading = false
             state.isSuccess = true
             state.user = action.payload
+            state.isError = false; // Explicitly reset error state
+            state.message = ""; // Clear any error messages
         })
         builder.addCase(LoginUser.rejected, (state, action) => {
             state.isLoading = false
