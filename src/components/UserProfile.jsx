@@ -18,8 +18,8 @@ const UserProfile = () => {
 
   const { currentColor } = useStateContext();
 
-  const logout = () => {
-    dispatch(LogOut());
+  const logout = async () => {
+    await dispatch(LogOut());
     dispatch(reset());
     navigate("/login");
   };

@@ -9,6 +9,7 @@ export { default as AddKost } from './AddKost';
 export { default as EditKost } from './EditKost';
 export { default as ViewKost } from './ViewKost';
 export { default as ListOjek } from './ListOjek';
+export { default as EditOjek } from './EditOjek';
 export { default as ListOrderOjek } from './ListOrderOjek';
 export { default as AddOjek } from './AddOjek';
 export { default as ViewOjek } from './ViewOjek';

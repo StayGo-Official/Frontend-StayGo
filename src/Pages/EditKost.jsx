@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getMe } from "../features/authSlice";
 
 import { Header } from "../components";
@@ -24,20 +24,18 @@ const EditKost = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const { isError } = useSelector((state) => state.auth);
   
     useEffect(() => {
       dispatch(getMe());
     }, [dispatch]);
-  
-    useEffect(() => {
-      if (isError) {
-        navigate("/login");
-      }
-    }, []);
 
   useEffect(() => {
-    getKostById();
+    const token = localStorage.getItem("token");
+    if (token) {
+      getKostById();
+    } else {
+      navigate("/login");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -84,8 +82,10 @@ const EditKost = () => {
     formData.append("removedImages", JSON.stringify(removedImages));
 
     try {
+      const token = localStorage.getItem("token");
       await axios.patch(`https://api-staygo.tonexus.my.id/kost/${id}`, formData, {
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       });
@@ -95,34 +95,34 @@ const EditKost = () => {
     }
   };
 
-  const handleImageUpload = (event) => {
-    const files = Array.from(event.target.files);
+  // const handleImageUpload = (event) => {
+  //   const files = Array.from(event.target.files);
 
-    // Buat array dengan file asli dan preview URL untuk masing-masing file
-    const newImages = files.map((file) => ({
-      file, // file asli untuk diunggah
-      preview: URL.createObjectURL(file), // URL untuk preview di frontend
-    }));
+  //   // Buat array dengan file asli dan preview URL untuk masing-masing file
+  //   const newImages = files.map((file) => ({
+  //     file, // file asli untuk diunggah
+  //     preview: URL.createObjectURL(file), // URL untuk preview di frontend
+  //   }));
 
-    // Tambahkan file baru ke state `files`
-    setFiles((prevImages) => [...prevImages, ...newImages]);
-  };
+  //   // Tambahkan file baru ke state `files`
+  //   setFiles((prevImages) => [...prevImages, ...newImages]);
+  // };
 
-  const handleRemoveImage = (index) => {
-    // Revoke preview URL untuk membebaskan memori
-    URL.revokeObjectURL(files[index].preview);
+  // const handleRemoveImage = (index) => {
+  //   // Revoke preview URL untuk membebaskan memori
+  //   URL.revokeObjectURL(files[index].preview);
   
-    // Jika gambar ini berasal dari gambar lama, tambahkan ke daftar removedImages
-    if (!files[index].file) {
-      setRemovedImages((prevRemoved) => [
-        ...prevRemoved,
-        files[index].preview, // Gunakan preview untuk mengidentifikasi gambar
-      ]);
-    }
+  //   // Jika gambar ini berasal dari gambar lama, tambahkan ke daftar removedImages
+  //   if (!files[index].file) {
+  //     setRemovedImages((prevRemoved) => [
+  //       ...prevRemoved,
+  //       files[index].preview, // Gunakan preview untuk mengidentifikasi gambar
+  //     ]);
+  //   }
   
-    // Hapus file dari state
-    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-  };
+  //   // Hapus file dari state
+  //   setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  // };
 
   // Fungsi untuk memformat angka sebagai mata uang
   const formatCurrency = (number) => {
@@ -150,7 +150,7 @@ const EditKost = () => {
         <Header category="Page" title="Tambah Kost" />
         <form
           onSubmit={updateKost}
-          className="grid grid-cols-1 md:grid-cols-2 gap-5"
+          className="md:grid-cols-2 gap-5"
         >
           {/* Form Input - Kiri */}
           <div className="space-y-4">
@@ -321,62 +321,7 @@ const EditKost = () => {
             </div>
           </div>
 
-          {/* Gambar Upload - Kanan */}
-          <div>
-            <label className="block mb-1 font-semibold">Upload Gambar</label>
-            <div className="border-dashed border-2 border-gray-300 rounded-lg p-5 text-center">
-              <p className="text-gray-500 mb-2">
-                Drop your images here, or browse
-              </p>
-              <p className="text-sm text-gray-400">
-                JPEG, JPG, PNG, are allowed
-              </p>
-              <input
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="hidden"
-                id="upload-images"
-              />
-              <label
-                htmlFor="upload-images"
-                className="cursor-pointer px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 mt-3 inline-block"
-              >
-                Browse Files
-              </label>
-            </div>
-            {/* Preview */}
-            <div className="mt-3 space-y-2">
-              {files.map((image, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between border rounded p-2"
-                >
-                  <div className="flex items-center space-x-4">
-                    {/* Menampilkan gambar yang sudah ada dari URL */}
-                    {image.preview && (
-                      <img
-                        src={image.preview}
-                        alt={`Preview ${index}`}
-                        className="w-12 h-12 object-cover rounded"
-                      />
-                    )}
-                    <p className="text-sm text-gray-700 truncate dark:text-white dark:bg-secondary-dark-bg">
-                      {image.file ? image.file.name : "Gambar lama"}
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveImage(index)}
-                    className="text-red-500 hover:underline"
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
+          
 
           {/* Submit Button */}
           <div className="col-span-2 flex justify-end space-x-3 mt-5">

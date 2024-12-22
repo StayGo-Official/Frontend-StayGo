@@ -42,8 +42,7 @@ const ListOjek = () => {
   };
 
   const handleEdit = (id) => {
-    console.log("Edit Kost ID:", id);
-    // Tambahkan logika untuk navigasi atau buka modal edit
+    navigate(`/edit-ojek/${id}`);
   };
 
   const handleView = (id) => {

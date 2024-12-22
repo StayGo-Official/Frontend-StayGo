@@ -90,18 +90,18 @@ const ViewKost = () => {
         <div className="flex flex-col gap-4 lg:w-1/2">
           <div>
             <span className=" text-violet-600 font-semibold">Kamar Kost</span>
-            <h1 className="text-3xl font-bold">{namaKost}</h1>
+            <h1 className="text-3xl font-bold dark:text-white">{namaKost}</h1>
           </div>
-          <p className="text-gray-700">{deskripsi}</p>
+          <p className="text-gray-700 dark:text-white">{deskripsi}</p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Biaya Perbulan */}
             <div className="flex flex-col">
-              <span className="font-bold text-gray-800">Biaya Perbulan:</span>
+              <span className="font-bold text-violet-600">Biaya Perbulan:</span>
               <span
                 className={`${
                   hargaPerbulan === 0 || !hargaPerbulan
                     ? "font-normal text-sm text-red-600"
-                    : "font-semibold text-2xl text-gray-900"
+                    : "font-semibold text-2xl text-gray-900 dark:text-white"
                 }`}
               >
                 {hargaPerbulan === 0 ||
@@ -114,8 +114,8 @@ const ViewKost = () => {
 
             {/* Biaya Pertahun */}
             <div className="flex flex-col">
-              <span className="font-bold text-gray-800">Biaya Pertahun:</span>
-              <span className="font-semibold text-2xl text-gray-900">
+              <span className="font-bold text-violet-600">Biaya Pertahun:</span>
+              <span className="font-semibold text-2xl text-gray-900 dark:text-white">
                 {formatCurrency(hargaPertahun)}
               </span>
             </div>
@@ -127,7 +127,7 @@ const ViewKost = () => {
                 className={`${
                   tersedia === 0 || !tersedia
                     ? "font-normal text-sm text-red-600"
-                    : "font-semibold text-2xl text-gray-900"
+                    : "font-semibold text-2xl text-gray-900 dark:text-white"
                 }`}
               >
                 {tersedia === 0 || tersedia === null || tersedia === undefined
@@ -139,7 +139,7 @@ const ViewKost = () => {
             {/* Gender */}
             <div className="flex flex-col">
               <span className="text-violet-600 font-semibold">Untuk:</span>
-              <span className="font-semibold text-2xl text-gray-900">
+              <span className="font-semibold text-2xl text-gray-900 dark:text-white">
                 {gender}
               </span>
             </div>
@@ -159,14 +159,14 @@ const ViewKost = () => {
                   </span>
                 ))
               ) : (
-                <span className="text-gray-600">Fasilitas tidak tersedia</span>
+                <span className="text-gray-600 dark:text-white">Fasilitas tidak tersedia</span>
               )}
             </div>
           </div>
 
           <div>
-            <h2 className="text-xl font-bold">Lokasi</h2>
-            <p className="text-gray-700">{alamat}</p>
+            <h2 className="text-xl font-bold dark:text-white">Lokasi</h2>
+            <p className="text-gray-700 dark:text-white">{alamat}</p>
             <iframe
               src={`https://www.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`}
               width="100%"

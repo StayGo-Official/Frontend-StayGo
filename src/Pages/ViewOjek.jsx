@@ -69,23 +69,23 @@ const ViewOjek = () => {
         <div className="flex flex-col gap-4 lg:w-1/2">
           <div>
             <span className=" text-violet-600 font-semibold">Nama Ojek</span>
-            <p className="text-gray-700">{nama}</p>
+            <p className="text-gray-700 dark:text-white">{nama}</p>
           </div>
           <div>
             <span className=" text-violet-600 font-semibold">Tersedia ?</span>
-            <p className="text-gray-700">{status === true ? "Iya" : "Tidak"}</p>
+            <p className="text-gray-700 dark:text-white">{status === true ? "Iya" : "Tidak"}</p>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Gender */}
             <div className="flex flex-col">
               <span className="text-violet-600 font-semibold">Untuk</span>
-              <p className="text-gray-700">{gender}</p>
+              <p className="text-gray-700 dark:text-white">{gender}</p>
             </div>
           </div>
 
           <div>
             <span className="text-violet-600 font-semibold">Alamat</span>
-            <p className="text-gray-700">{alamat}</p>
+            <p className="text-gray-700 dark:text-white">{alamat}</p>
           </div>
         </div>
       </div>
