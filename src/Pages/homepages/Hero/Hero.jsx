@@ -45,7 +45,7 @@ const Hero = () => {
               animate="visible"
               className="flex gap-8 justify-center md:justify-start !mt-8 items-center"
             >
-              <button className="primary-btn">Coba Sekarang</button>
+              <a href="http://api-staygo.tonexus.my.id/application/staygo.apk" className="primary-btn">Coba Sekarang</a>
               <button className="flex justify-end items-center gap-2 font-semibold" onClick={() => setIsVideoOpen(true)}>
                 <span className="w-10 h-10 bg-secondary/15 rounded-full flex justify-center items-center">
                   <FaPlay className="text-secondary" />
@@ -81,7 +81,7 @@ const Hero = () => {
             {/* Embed YouTube video */}
             <iframe
               className="w-full h-full rounded-lg"
-              src="https://www.youtube.com/embed/hWp_nHg9q50?si=q3LBemlNSu6H5k9L"
+              src="https://www.youtube.com/embed/CJrH9Cq5yp0?si=bXLuJrOUb_kyDDcS"
               title="Panduan Penggunaan Aplikasi"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

@@ -66,6 +66,24 @@ const Navbar = () => {
                   Contact us
                 </a>
               </li>
+
+              <li>
+                <a
+                  href="/kebijakan-privasi"
+                  className="inline-block text-gray-600 text-sm xl:text-base py-1 px-2 xl:px-3 hover:text-secondary transition-all duration-300 font-semibold"
+                >
+                  Kebijakan Privasi
+                </a>
+              </li>
+
+              <li>
+                <a
+                  href="/syarat-dan-ketentuan"
+                  className="inline-block text-gray-600 text-sm xl:text-base py-1 px-2 xl:px-3 hover:text-secondary transition-all duration-300 font-semibold"
+                >
+                  Syarat Ketentuan
+                </a>
+              </li>
             </ul>
           </div>
 

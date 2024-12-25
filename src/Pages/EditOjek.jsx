@@ -10,6 +10,7 @@ const EditOjek = () => {
   const [nama, setNama] = useState("");
   const [namaLengkap, setNamaLengkap] = useState("");
   const [alamat, setAlamat] = useState("");
+  const [noHp, setNoHp] = useState("");
   const [status, setStatus] = useState("");
   const [isRide, setIsRide] = useState("");
   const [isFood, setIsFood] = useState("");
@@ -42,6 +43,7 @@ const EditOjek = () => {
     setNama(response.data.nama);
     setNamaLengkap(response.data.namaLengkap);
     setAlamat(response.data.alamat);
+    setNoHp(response.data.noHp);
     setStatus(response.data.status);
     setIsRide(response.data.isRide);
     setIsFood(response.data.isFood);
@@ -60,6 +62,7 @@ const EditOjek = () => {
     formData.append("nama", nama);
     formData.append("namaLengkap", namaLengkap);
     formData.append("alamat", alamat);
+    formData.append("noHp", noHp);
     formData.append("status", status);
     formData.append("isRide", isRide);
     formData.append("isFood", isFood);
@@ -132,6 +135,18 @@ const EditOjek = () => {
                 value={alamat}
                 onChange={(e) => setAlamat(e.target.value)}
               ></textarea>
+            </div>
+            <div>
+              <label className="block mb-1 font-semibold">No HP</label>
+              <input
+                type="number"
+                name="noHp"
+                required
+                className="w-full p-2 border rounded dark:text-white dark:bg-secondary-dark-bg"
+                placeholder="Masukkan no Handphone"
+                value={noHp}
+                onChange={(e) => setNoHp(e.target.value)}
+              />
             </div>
             <div className="space-y-4">
               <div className="flex space-x-4 items-center">

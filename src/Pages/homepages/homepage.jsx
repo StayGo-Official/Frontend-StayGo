@@ -17,7 +17,7 @@ const BannerData = {
   title: "Layanan Ojek Online Cepat dan Terpercaya",
   subtitle:
     "Dengan stayGo, Anda dapat memesan ojek online kapan saja dan di mana saja. Nikmati pengalaman perjalanan yang aman, nyaman, dan efisien untuk kebutuhan harian Anda. Kami selalu siap membantu mobilitas Anda dengan pengemudi berpengalaman dan harga yang terjangkau",
-  link: "#",
+  link: "http://api-staygo.tonexus.my.id/application/staygo.apk",
 };
 
 const BannerData2 = {
@@ -26,7 +26,7 @@ const BannerData2 = {
   title: "Platform Pencarian Kost Terbaik untuk Anda",
   subtitle:
     "stayGo membantu Anda menemukan kost yang sesuai dengan kebutuhan Anda, baik dari segi fasilitas, lokasi, maupun harga. Dengan sistem pencarian yang mudah dan cepat, kami memastikan Anda mendapatkan tempat tinggal yang nyaman tanpa repot",
-  link: "#",
+  link: "http://api-staygo.tonexus.my.id/application/staygo.apk",
 };
 
 const Homepage = () => {

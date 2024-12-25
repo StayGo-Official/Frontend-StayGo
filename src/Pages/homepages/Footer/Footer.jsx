@@ -28,17 +28,11 @@ const Footer = () => {
               StayGo adalah platform yang menyediakan layanan pencarian kamar kost dan ojek online dengan mudah. Kami hadir untuk membantu kebutuhan Anda, mulai dari menemukan tempat tinggal yang nyaman hingga transportasi yang praktis di sekitar Lhokseumawe.
               </p>
               <div className="flex items-center justify-start gap-5 !mt-6">
-                <a href="#" className="hover:text-secondary duration-200">
+                <a href="https://maps.app.goo.gl/EuiVe9Ph9CwSBnma8" target="_blank" rel="noreferrer" className="hover:text-secondary duration-200">
                   <HiLocationMarker className="text-3xl" />
                 </a>
-                <a href="#" className="hover:text-secondary duration-200">
+                <a href="https://www.instagram.com/staygo.io" target="_blank" rel="noreferrer" className="hover:text-secondary duration-200">
                   <FaInstagram className="text-3xl" />
-                </a>
-                <a href="#" className="hover:text-secondary duration-200">
-                  <FaFacebook className="text-3xl" />
-                </a>
-                <a href="#" className="hover:text-secondary duration-200">
-                  <FaLinkedin className="text-3xl" />
                 </a>
               </div>
             </div>
